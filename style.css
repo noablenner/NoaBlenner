@@ -1,0 +1,223 @@
+/* ============================================================
+   NOA BLENNER — LE SITE QUI NE VEUT RIEN DIRE
+   (Comic Sans obligatoire, sinon ça compte pas)
+   ============================================================ */
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --noa1:#ff00cc; --noa2:#00ffe1; --noa3:#fff700; --noa4:#7b00ff;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:"Comic Sans MS","Comic Sans",cursive,sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext y='32' font-size='32'%3E🚽%3C/text%3E%3C/svg%3E") 16 16, auto;
+  animation:bgParty 4s linear infinite;
+}
+
+@keyframes bgParty{
+  0%{ background:#ff00cc; }
+  20%{ background:#00ffe1; }
+  40%{ background:#fff700; }
+  60%{ background:#7b00ff; }
+  80%{ background:#00ff48; }
+  100%{ background:#ff00cc; }
+}
+
+/* ---------- LOADER ---------- */
+#loader{
+  position:fixed; inset:0; z-index:9999;
+  background:#000; display:flex; align-items:center; justify-content:center;
+  text-align:center;
+}
+.loader-inner{ width:min(90%,500px); }
+.loader-noa{ width:140px; border-radius:50%; animation:spin 1s linear infinite, hue 3s linear infinite; }
+.loadbar{ width:100%; height:28px; border:4px solid #fff; border-radius:20px; margin:20px 0; overflow:hidden; }
+.loadfill{ height:100%; width:0%; background:linear-gradient(90deg,var(--noa1),var(--noa3)); }
+#loadtext{ font-size:1.1rem; }
+.enter-btn{
+  margin-top:18px; font-family:inherit; font-size:1.4rem; padding:14px 30px;
+  background:#ff0040; color:#fff; border:5px solid #fff; border-radius:14px;
+  cursor:pointer; animation:pulse 0.4s infinite alternate;
+}
+.hidden{ display:none; }
+
+/* ---------- MARQUEE ---------- */
+.marquee{
+  position:fixed; left:0; width:100%; z-index:500;
+  background:#000; color:#0f0; font-weight:bold; font-size:1.3rem;
+  white-space:nowrap; overflow:hidden; padding:6px 0; border-top:3px solid #0f0; border-bottom:3px solid #0f0;
+}
+.marquee.top{ top:0; }
+.marquee span{ display:inline-block; padding-left:100%; animation:scrollLeft 18s linear infinite; }
+@keyframes scrollLeft{ to{ transform:translateX(-100%); } }
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh; padding:80px 16px 40px; text-align:center;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+  position:relative; overflow:hidden;
+}
+.hero-bg-emoji{
+  position:absolute; inset:0; font-size:8rem; opacity:.15; word-spacing:40px; line-height:1.4;
+  animation:spinHuge 30s linear infinite; pointer-events:none;
+}
+.mega-title{
+  font-size:clamp(3rem,16vw,11rem); line-height:.85; font-weight:900;
+  -webkit-text-stroke:4px #000; letter-spacing:-4px;
+}
+.subtitle{ font-size:clamp(1rem,3vw,1.6rem); max-width:700px; background:#000a; padding:10px 18px; border-radius:18px; }
+
+.head-stage{ position:relative; }
+.head{
+  width:min(70vw,260px); border-radius:24px; border:6px solid #000;
+  box-shadow:0 0 0 6px #fff, 0 14px 0 #0008;
+  transform:rotate(90deg);
+  transition:transform .1s;
+}
+.main-head{ cursor:pointer; }
+.head-label{
+  position:absolute; bottom:-46px; left:50%; transform:translateX(-50%);
+  background:#000; padding:6px 14px; border-radius:30px; font-size:1.1rem; white-space:nowrap;
+  animation:pulse .5s infinite alternate;
+}
+
+.big-red-button{
+  margin-top:60px; font-family:inherit; font-size:1.6rem; font-weight:bold;
+  padding:18px 36px; background:radial-gradient(circle at 30% 30%,#ff5b5b,#a30000);
+  color:#fff; border:6px solid #fff; border-radius:50px; cursor:pointer;
+  box-shadow:0 10px 0 #5a0000; animation:wobble 1.5s infinite;
+}
+.big-red-button:active{ transform:translateY(8px); box-shadow:0 2px 0 #5a0000; }
+
+.scroll-hint{ font-size:1.4rem; margin-top:24px; }
+
+/* ---------- SECTIONS ---------- */
+.section{ padding:70px 16px; text-align:center; position:relative; }
+.s1{ background:#111a; } .s2{ background:#1a0033cc; }
+.s3{ background:#00141acc; } .s4{ background:#1a1400cc; } .s5{ background:#1a0011cc; }
+.section-title{ font-size:clamp(2rem,8vw,4.5rem); margin-bottom:26px; -webkit-text-stroke:3px #000; }
+.warn-text{ font-size:1.2rem; margin-bottom:20px; color:#ffea00; }
+
+.card-grid{ display:flex; flex-wrap:wrap; gap:20px; justify-content:center; max-width:1000px; margin:0 auto; }
+.fact-card{
+  background:#fff; color:#000; border-radius:20px; padding:18px; width:220px;
+  border:5px solid #000; box-shadow:8px 8px 0 #000;
+}
+.card-img{ width:100%; border-radius:12px; transform:rotate(90deg) scale(.7); margin:18px 0; }
+.big-num{ font-size:3rem; font-weight:900; color:#ff00cc; }
+
+/* ---------- MUR DE TÊTES ---------- */
+.head-wall{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:1100px; margin:0 auto; }
+.wall-head{ width:90px; height:90px; object-fit:cover; border-radius:50%; border:4px solid #fff; cursor:pointer; transform:rotate(90deg); }
+
+/* ---------- STATS ---------- */
+.stats{ display:flex; flex-wrap:wrap; gap:30px; justify-content:center; }
+.stat{ background:#000; border:4px dashed #fff; border-radius:18px; padding:24px 30px; min-width:180px; }
+.stat-num{ display:block; font-size:3rem; font-weight:900; color:#00ffe1; }
+.stat-lbl{ font-size:1rem; }
+
+/* ---------- RUNNER ---------- */
+.run-zone{ position:relative; height:260px; border:5px dashed #fff; border-radius:20px; margin:20px auto; max-width:800px; overflow:hidden; }
+.runner{
+  position:absolute; top:40%; left:40%; font-family:inherit; font-size:1.3rem; font-weight:bold;
+  padding:14px 26px; background:#00ff48; color:#000; border:4px solid #000; border-radius:40px; cursor:pointer;
+}
+
+/* ---------- QUIZ ---------- */
+.quiz-q{ font-size:1.5rem; margin-bottom:20px; }
+.quiz-answers{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+.quiz-btn{
+  font-family:inherit; font-size:1.3rem; padding:14px 28px; border:4px solid #000; border-radius:14px;
+  background:#fff700; cursor:pointer; font-weight:bold;
+}
+#quizResult{ margin-top:20px; font-size:1.4rem; min-height:40px; }
+
+/* ---------- FOOTER ---------- */
+.footer{ padding:50px 16px; text-align:center; background:#000; }
+.footer-noa{ width:100px; border-radius:50%; }
+.tiny{ font-size:.8rem; opacity:.6; margin-top:10px; }
+.mute-btn{
+  margin-top:20px; font-family:inherit; font-size:1rem; padding:10px 20px;
+  background:#222; color:#0f0; border:3px solid #0f0; border-radius:10px; cursor:pointer;
+}
+
+/* ---------- POPUPS PIÈGES ---------- */
+.popup{
+  position:fixed; z-index:8000; width:300px; background:#fff; color:#000;
+  border:4px solid #000; border-radius:8px; box-shadow:10px 10px 0 #0008; font-size:.95rem;
+}
+.popup-bar{ background:linear-gradient(90deg,#000080,#1084d0); color:#fff; padding:6px 10px; display:flex; justify-content:space-between; cursor:move; font-weight:bold; }
+.popup-x{ cursor:pointer; background:#c0c0c0; color:#000; border:2px outset #fff; width:22px; text-align:center; }
+.popup-body{ padding:16px; text-align:center; }
+.popup-body img{ width:90px; border-radius:8px; transform:rotate(90deg); margin:8px 0; }
+.popup-ok{ font-family:inherit; margin-top:10px; padding:6px 18px; border:2px outset #fff; background:#c0c0c0; cursor:pointer; }
+
+/* ---------- CURSEUR TRAIL ---------- */
+.trail-noa{ position:fixed; width:34px; height:34px; pointer-events:none; z-index:7000; border-radius:50%; }
+
+/* ---------- FLASH ---------- */
+#flashLayer{ position:fixed; inset:0; z-index:6000; pointer-events:none; background:transparent; }
+
+/* ---------- EMOJI RAIN ---------- */
+.fall{ position:fixed; top:-60px; font-size:2.4rem; z-index:400; pointer-events:none; }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.spin{ animation:spin 2s linear infinite; }
+.spin-slow{ animation:spin 8s linear infinite; display:inline-block; }
+@keyframes spinHuge{ to{ transform:rotate(360deg) scale(1.4); } }
+
+@keyframes hue{ to{ filter:hue-rotate(360deg); } }
+.rainbow{
+  background:linear-gradient(90deg,#ff0040,#ff7b00,#fff700,#00ff48,#00e1ff,#7b00ff,#ff00cc);
+  background-size:400% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  -webkit-text-stroke:3px #000;
+  animation:rainbowMove 2s linear infinite;
+}
+@keyframes rainbowMove{ to{ background-position:400% 0; } }
+
+@keyframes shake{ 0%,100%{ transform:translate(0,0) rotate(0); } 20%{ transform:translate(-6px,4px) rotate(-2deg);} 40%{ transform:translate(6px,-4px) rotate(2deg);} 60%{ transform:translate(-5px,-3px) rotate(-1deg);} 80%{ transform:translate(5px,3px) rotate(1deg);} }
+.shake{ animation:shake .35s infinite; }
+
+@keyframes wobble{ 0%,100%{ transform:rotate(-3deg);} 50%{ transform:rotate(3deg);} }
+.wobble{ animation:wobble 1s infinite; display:inline-block; }
+
+@keyframes bounce{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-18px);} }
+.bounce{ animation:bounce .8s infinite; }
+
+@keyframes pulse{ from{ transform:scale(1);} to{ transform:scale(1.12);} }
+
+.tilt{ transition:transform .2s; }
+.tilt:hover{ transform:rotate(-4deg) scale(1.08); }
+
+/* glitch */
+.glitch{ position:relative; }
+.glitch::before,.glitch::after{
+  content:attr(data-text); position:absolute; left:0; top:0; width:100%;
+}
+.glitch::before{ color:#0ff; animation:glitchA .4s infinite; }
+.glitch::after{ color:#f0f; animation:glitchB .4s infinite; }
+@keyframes glitchA{ 0%,100%{ transform:translate(0); clip-path:inset(0 0 70% 0);} 50%{ transform:translate(-4px,2px); clip-path:inset(40% 0 20% 0);} }
+@keyframes glitchB{ 0%,100%{ transform:translate(0); clip-path:inset(60% 0 0 0);} 50%{ transform:translate(4px,-2px); clip-path:inset(10% 0 50% 0);} }
+
+/* effets sur la grosse tête */
+.head.fx-scream{ transform:rotate(90deg) scaleY(1.6) scaleX(.8); filter:contrast(2) saturate(3); }
+.head.fx-crazy{ animation:crazy .15s infinite; }
+@keyframes crazy{ 0%{transform:rotate(85deg) scale(1.1);filter:hue-rotate(0);} 50%{transform:rotate(95deg) scale(.9) skewX(10deg);filter:hue-rotate(180deg) invert(1);} 100%{transform:rotate(85deg) scale(1.1);filter:hue-rotate(360deg);} }
+.head.fx-smile{ transform:rotate(90deg) scaleX(1.7) scaleY(.7); filter:brightness(1.4) saturate(2); }
+.head.fx-tiny{ transform:rotate(90deg) scale(.2); }
+.head.fx-huge{ transform:rotate(90deg) scale(1.7); }
+
+@media (max-width:600px){
+  .marquee{ font-size:1rem; }
+  .hero-bg-emoji{ font-size:4rem; }
+}

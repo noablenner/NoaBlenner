@@ -70,7 +70,7 @@ function randomSound(){ SOUNDS[Math.floor(Math.random()*SOUNDS.length)](); }
 
 /* ---------- LOADER BIDON ---------- */
 const loadMsgs = [
-  "Initialisation des prouts...","Téléchargement du charisme de Noa...",
+  "Initialisation des prouts...","Téléchargement de bêtises inutiles...",
   "Compilation du n'importe quoi...","Réveil des toilettes skibidi...",
   "Calcul du QI de Noa (erreur)...","Chargement à 3%... non 1%... non 0%...",
   "Presque jamais prêt...","Ça sert à rien mais on continue..."
@@ -246,11 +246,11 @@ document.querySelectorAll(".quiz-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const r = document.getElementById("quizResult");
     if(btn.dataset.ok === "true"){
-      r.textContent = "✅ EXACT. La réponse à tout est NOA. (2+2 aussi.)";
+      r.textContent = "✅ Tu as cliqué sur NOA. Ça sert à rien mais merci 🙏";
       scream(); flash();
       for(let i=0;i<25;i++) setTimeout(rainEmoji, i*40);
     } else {
-      r.textContent = "❌ FAUX. La bonne réponse était NOA. Évidemment.";
+      r.textContent = "❌ Raté. Fallait cliquer sur NOA (va savoir pourquoi).";
       fart();
       // PIÈGE : la bonne réponse change de place
       const ans = document.querySelector(".quiz-answers");

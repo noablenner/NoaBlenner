@@ -150,6 +150,9 @@ body{
   box-shadow:0 4px 0 #0a1a12; transition:transform .12s, box-shadow .12s;
 }
 .nq-btn:active{ transform:translateY(4px); box-shadow:0 0 0 #0a1a12; }
+.nq-perso{ margin-top:10px; border-color:#8a7dff; }
+.perso-btn{ background:#8a7dff; color:#12103a; border-color:#12103a; box-shadow:0 4px 0 #12103a; }
+.perso-btn:active{ transform:translateY(4px); box-shadow:0 0 0 #12103a; }
 
 /* ---------- SECTION PDF : LA ZONE SÛRE (aucun piège) ---------- */
 .pdf-section{

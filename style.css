@@ -136,6 +136,21 @@ body{
 .card-img{ width:100%; border-radius:12px; transform:rotate(90deg) scale(.7); margin:18px 0; }
 .big-num{ font-size:3rem; font-weight:900; color:#ff00cc; }
 
+/* ---------- MINI SECTION EXPORT NQ (raccourci perso) ---------- */
+.nq-section{ background:#11151c; padding:18px 16px; }
+.nq-bar{
+  max-width:560px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+  gap:14px; flex-wrap:wrap; background:#1c2431; border:3px solid #3ddc97; border-radius:16px;
+  padding:12px 18px;
+}
+.nq-label{ font-family:var(--font-body); font-weight:700; font-size:1.15rem; color:#eafff5; }
+.nq-btn{
+  font-family:var(--font-body); font-weight:700; font-size:1.05rem; text-decoration:none;
+  background:#3ddc97; color:#0a1a12; padding:11px 20px; border-radius:12px; border:3px solid #0a1a12;
+  box-shadow:0 4px 0 #0a1a12; transition:transform .12s, box-shadow .12s;
+}
+.nq-btn:active{ transform:translateY(4px); box-shadow:0 0 0 #0a1a12; }
+
 /* ---------- SECTION PDF : LA ZONE SÛRE (aucun piège) ---------- */
 .pdf-section{
   background:#0d1b2a; padding:60px 16px; text-align:center;

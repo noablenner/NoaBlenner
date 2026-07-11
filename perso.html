@@ -27,11 +27,13 @@
   .back{ display:inline-block; margin-top:18px; color:#9fb3d1; text-decoration:none; font-size:.9rem; }
   .hidden{ display:none; }
   /* zone révélée */
-  .reveal .row{ display:flex; align-items:center; gap:10px; background:#0f1a2e; border:2px solid #3a4d6d;
+  .block-title{ font-size:1.1rem; font-weight:700; margin:22px 0 10px; color:#cfe0ff; }
+  .row{ display:flex; align-items:center; gap:10px; background:#0f1a2e; border:2px solid #3a4d6d;
     border-radius:12px; padding:12px 14px; margin-bottom:12px; }
-  .reveal .val{ flex:1; font-family:"Trebuchet MS",monospace; font-size:1.05rem; word-break:break-all; user-select:all; }
-  .reveal a.val{ color:#7cc3ff; }
-  .copy{ background:#2a9d8f; color:#fff; border:none; border-radius:9px; padding:8px 12px; font-size:.9rem; }
+  .row > .cell{ flex:1; min-width:0; }
+  .val{ font-family:"Trebuchet MS",monospace; font-size:1.05rem; word-break:break-all; user-select:all; display:block; }
+  a.val{ color:#7cc3ff; }
+  .copy{ background:#2a9d8f; color:#fff; border:none; border-radius:9px; padding:8px 12px; font-size:.9rem; flex:none; }
   .copy:active{ transform:translateY(2px); }
   .lbl{ font-size:.8rem; color:#9fb3d1; display:block; margin-bottom:3px; }
   .warn{ font-size:.8rem; color:#c7b26b; margin-top:16px; line-height:1.4; }
@@ -50,35 +52,11 @@
       <a class="back" href="index.html">← retour au site</a>
     </div>
 
-    <!-- Étape contenu révélé -->
-    <div id="content" class="reveal hidden">
+    <!-- Étape contenu révélé (construit dynamiquement) -->
+    <div id="content" class="hidden">
       <h1>✅ Accès autorisé</h1>
       <p class="muted">Voilà ce que tu cherchais.</p>
-
-      <div class="row">
-        <div style="flex:1">
-          <span class="lbl">Lien</span>
-          <a class="val" id="lnk" target="_blank" rel="noopener"></a>
-        </div>
-        <button class="copy" data-for="lnk">Copier</button>
-      </div>
-
-      <div class="row">
-        <div style="flex:1">
-          <span class="lbl">Ligne 1</span>
-          <span class="val" id="l1"></span>
-        </div>
-        <button class="copy" data-for="l1">Copier</button>
-      </div>
-
-      <div class="row">
-        <div style="flex:1">
-          <span class="lbl">Ligne 2</span>
-          <span class="val" id="l2"></span>
-        </div>
-        <button class="copy" data-for="l2">Copier</button>
-      </div>
-
+      <div id="blocks"></div>
       <p class="warn">⚠️ Page protégée côté navigateur uniquement. Ne partage pas le mot de passe.</p>
       <a class="back" href="index.html">← retour au site</a>
     </div>
@@ -87,7 +65,7 @@
 <script>
 // Contenu chiffré (AES-256-GCM, clé dérivée par PBKDF2 depuis le mot de passe).
 // Le texte en clair n'existe nulle part dans ce fichier.
-const BLOB = {"iter":250000,"salt":"C4wfbPIuzOxwxD4UoP/3vA==","iv":"+1p+nHak0DIjjC78","data":"CSMu1BgeiDYKUVMoypJdPVCDl7IDbUjUVC1BzKfkHtvwiTifNTaiQdot46p6VvJd129yBrtCzbKn2TSAdy1HPXdw5QYAZimtv2TTJwQuMhC/H8EMcSmaSlssSNu7+UHpFeK41kfTzUqY"};
+const BLOB = {"iter":250000,"salt":"2wG87nxAk6MsyErcZ74mrw==","iv":"ZAB57G8X3S9NvTzt","data":"rqJjf5Ewm15se423sLypcHOxM5nGKbNzR+zvQ/M2iBnYnzkzAwvFYtmGCHqZXKjA4rI0M+sOdCDAFyk/5qVl8mdUGV4sfXq9rEipkO4qg703MvAadIYnhRN+jqy6x3diof35CIyXFBIqy7frK0PXXYkusqyQtJe5f2XIvcd1Y8h/1COUyc4qUICXNXNbYmFdC59/Zo+tdKcu0DSA7oseuv6qwzeq+GvyrYT8"};
 
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const pwInput = document.getElementById("pw");
@@ -104,8 +82,7 @@ async function unlock(){
       { name:"PBKDF2", salt:b64(BLOB.salt), iterations:BLOB.iter, hash:"SHA-256" },
       baseKey, { name:"AES-GCM", length:256 }, false, ["decrypt"]);
     const ptBuf = await crypto.subtle.decrypt({ name:"AES-GCM", iv:b64(BLOB.iv) }, key, b64(BLOB.data));
-    const data = JSON.parse(new TextDecoder().decode(ptBuf));
-    show(data);
+    show(JSON.parse(new TextDecoder().decode(ptBuf)));
   }catch(e){
     err.textContent = "❌ Mauvais mot de passe.";
     pwInput.value = "";
@@ -113,28 +90,52 @@ async function unlock(){
   }
 }
 
+// crée une ligne (label + valeur + bouton copier). isLink -> rendu <a>
+function makeRow(label, value, isLink){
+  const row = document.createElement("div"); row.className = "row";
+  const cell = document.createElement("div"); cell.className = "cell";
+  const lbl = document.createElement("span"); lbl.className = "lbl"; lbl.textContent = label;
+  const val = document.createElement(isLink ? "a" : "span"); val.className = "val"; val.textContent = value;
+  if(isLink){ val.href = value; val.target = "_blank"; val.rel = "noopener"; }
+  cell.appendChild(lbl); cell.appendChild(val);
+  const btn = document.createElement("button"); btn.className = "copy"; btn.textContent = "Copier";
+  btn.addEventListener("click", () => {
+    navigator.clipboard.writeText(value).then(() => {
+      btn.textContent = "✓ Copié"; setTimeout(() => btn.textContent = "Copier", 1200);
+    });
+  });
+  row.appendChild(cell); row.appendChild(btn);
+  return row;
+}
+
+function addBlock(container, title, rows){
+  const h = document.createElement("div"); h.className = "block-title"; h.textContent = title;
+  container.appendChild(h);
+  rows.forEach(r => container.appendChild(makeRow(r.label, r.value, r.isLink)));
+}
+
 function show(data){
-  const lnk = document.getElementById("lnk");
-  lnk.href = data.link; lnk.textContent = data.link;
-  document.getElementById("l1").textContent = data.lines[0];
-  document.getElementById("l2").textContent = data.lines[1];
+  const blocks = document.getElementById("blocks");
+  blocks.innerHTML = "";
+
+  const tvRows = [];
+  if(data.tradovate){
+    if(data.tradovate.link) tvRows.push({ label:"Lien", value:data.tradovate.link, isLink:true });
+    (data.tradovate.lines || []).forEach((v, i) => tvRows.push({ label:"Ligne " + (i+1), value:v }));
+    addBlock(blocks, "🟢 Tradovate", tvRows);
+  }
+
+  if(data.prt){
+    const prtRows = (data.prt.lines || []).map((v, i) => ({ label:"Ligne " + (i+1), value:v }));
+    addBlock(blocks, "🔵 ProRealTime", prtRows);
+  }
+
   document.getElementById("gate").classList.add("hidden");
   document.getElementById("content").classList.remove("hidden");
 }
 
 document.getElementById("go").addEventListener("click", unlock);
 pwInput.addEventListener("keydown", e => { if(e.key === "Enter") unlock(); });
-
-document.querySelectorAll(".copy").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const el = document.getElementById(btn.dataset.for);
-    const txt = el.tagName === "A" ? el.href : el.textContent;
-    navigator.clipboard.writeText(txt).then(() => {
-      const old = btn.textContent; btn.textContent = "✓ Copié";
-      setTimeout(() => btn.textContent = old, 1200);
-    });
-  });
-});
 </script>
 </body>
 </html>
